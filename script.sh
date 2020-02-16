@@ -2,21 +2,6 @@
 
 missing_env_var_secret=false
 
-#Verify secrets
-if ! [ -f ${SECRET_FILE_PATH}/privkey1.pem ]; then
-    echo "Missing privkey1.pem secret"
-    missing_env_var_secret=true
-else
-   echo -e "secret privkey1.pem \e[92mOK\e[0m"
-fi
-if ! [ -f ${SECRET_FILE_PATH}/fullchain1.pem ]; then
-    echo "Missing fullchain1.pem secret"
-    missing_env_var_secret=true
-else
-   echo -e "secret fullchain1.pem \e[92mOK\e[0m"
-fi
-
-
 #Verify environment variables
 if [[ -z $KHEOPS_ROOT_SCHEME ]]; then
   echo "Missing KHEOPS_ROOT_SCHEME environment variable"
