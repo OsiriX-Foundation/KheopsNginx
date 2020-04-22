@@ -104,20 +104,11 @@ port="$(echo $hostport | sed -e 's,^.*:,:,g' -e 's,.*:\([0-9]*\).*,\1,g' -e 's,[
 # extract the path (if any)
 path="$(echo $url | grep / | cut -d/ -f2-)"
 
-echo $proto
-echo $url
-echo $user
-echo $hostport
-echo $host
-echo $port
-echo $path
-
-
 roothost="$(awk -F/ '{sub("^[^@]+@","",$3); print $3}' <<<$KHEOPS_ROOT_URL)"
 
 #get env var
 chmod a+w /etc/nginx/conf.d/kheops.conf
-sed -i "s|\${root_url}|$proto://$host|" /etc/nginx/conf.d/kheops.conf
+sed -i "s|\${root_url}|$proto$host|" /etc/nginx/conf.d/kheops.conf
 
 sed -i "s|\${DICOMWebProxy_url}|$KHEOPS_DICOMWEB_PROXY_HOST:$KHEOPS_DICOMWEB_PROXY_PORT|" /etc/nginx/conf.d/kheops.conf
 sed -i "s|\${kheopsAuthorization_url}|http://$KHEOPS_AUTHORIZATION_HOST:$KHEOPS_AUTHORIZATION_PORT|" /etc/nginx/conf.d/kheops.conf
