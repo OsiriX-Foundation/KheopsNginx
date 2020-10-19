@@ -106,39 +106,26 @@ path="$(echo $url | grep / | cut -d/ -f2-)"
 
 roothost="$(awk -F/ '{sub("^[^@]+@","",$3); print $3}' <<<$KHEOPS_ROOT_URL)"
 
+conf_files=(
+  "/etc/nginx/conf.d/kheops.conf"
+  "/etc/nginx/locations.conf"
+  "/etc/nginx/dev_location.conf"
+)
+
+for conf_file in conf_files
+do
 #get env var
-chmod a+w /etc/nginx/conf.d/kheops.conf
-sed -i "s|\${root_url}|$proto$host|" /etc/nginx/conf.d/kheops.conf
+  chmod a+w conf_file
+  sed -i "s|\${root_url}|$proto$host|" conf_file
 
-sed -i "s|\${DICOMWebProxy_url}|$KHEOPS_DICOMWEB_PROXY_HOST:$KHEOPS_DICOMWEB_PROXY_PORT|" /etc/nginx/conf.d/kheops.conf
-sed -i "s|\${kheopsAuthorization_url}|http://$KHEOPS_AUTHORIZATION_HOST:$KHEOPS_AUTHORIZATION_PORT|" /etc/nginx/conf.d/kheops.conf
-sed -i "s|\${kheopsAuthorizationProxy_url}|http://$KHEOPS_PACS_PEP_HOST:$KHEOPS_PACS_PEP_PORT|" /etc/nginx/conf.d/kheops.conf
-sed -i "s|\${kheopsZipper_url}|http://$KHEOPS_ZIPPER_HOST:$KHEOPS_ZIPPER_PORT|" /etc/nginx/conf.d/kheops.conf
-sed -i "s|\${kheopsWebUI_url}|http://$KHEOPS_UI_HOST:$KHEOPS_UI_PORT|" /etc/nginx/conf.d/kheops.conf
+  sed -i "s|\${DICOMWebProxy_url}|$KHEOPS_DICOMWEB_PROXY_HOST:$KHEOPS_DICOMWEB_PROXY_PORT|" conf_file
+  sed -i "s|\${kheopsAuthorization_url}|http://$KHEOPS_AUTHORIZATION_HOST:$KHEOPS_AUTHORIZATION_PORT|" conf_file
+  sed -i "s|\${kheopsAuthorizationProxy_url}|http://$KHEOPS_PACS_PEP_HOST:$KHEOPS_PACS_PEP_PORT|" conf_file
+  sed -i "s|\${kheopsZipper_url}|http://$KHEOPS_ZIPPER_HOST:$KHEOPS_ZIPPER_PORT|" conf_file
+  sed -i "s|\${kheopsWebUI_url}|http://$KHEOPS_UI_HOST:$KHEOPS_UI_PORT|" conf_file
 
-sed -i "s|\${server_name}|$roothost|" /etc/nginx/conf.d/kheops.conf
-
-chmod a+w /etc/nginx/locations.conf
-sed -i "s|\${root_url}|$proto$host|" /etc/nginx/locations.conf
-
-sed -i "s|\${DICOMWebProxy_url}|$KHEOPS_DICOMWEB_PROXY_HOST:$KHEOPS_DICOMWEB_PROXY_PORT|" /etc/nginx/locations.conf
-sed -i "s|\${kheopsAuthorization_url}|http://$KHEOPS_AUTHORIZATION_HOST:$KHEOPS_AUTHORIZATION_PORT|" /etc/nginx/locations.conf
-sed -i "s|\${kheopsAuthorizationProxy_url}|http://$KHEOPS_PACS_PEP_HOST:$KHEOPS_PACS_PEP_PORT|" /etc/nginx/locations.conf
-sed -i "s|\${kheopsZipper_url}|http://$KHEOPS_ZIPPER_HOST:$KHEOPS_ZIPPER_PORT|" /etc/nginx/locations.conf
-sed -i "s|\${kheopsWebUI_url}|http://$KHEOPS_UI_HOST:$KHEOPS_UI_PORT|" /etc/nginx/locations.conf
-
-sed -i "s|\${server_name}|$roothost|" /etc/nginx/locations.conf
-
-chmod a+w /etc/nginx/dev_location.conf
-sed -i "s|\${root_url}|$proto$host|" /etc/nginx/dev_location.conf
-
-sed -i "s|\${DICOMWebProxy_url}|$KHEOPS_DICOMWEB_PROXY_HOST:$KHEOPS_DICOMWEB_PROXY_PORT|" /etc/nginx/dev_location.conf
-sed -i "s|\${kheopsAuthorization_url}|http://$KHEOPS_AUTHORIZATION_HOST:$KHEOPS_AUTHORIZATION_PORT|" /etc/nginx/dev_location.conf
-sed -i "s|\${kheopsAuthorizationProxy_url}|http://$KHEOPS_PACS_PEP_HOST:$KHEOPS_PACS_PEP_PORT|" /etc/nginx/dev_location.conf
-sed -i "s|\${kheopsZipper_url}|http://$KHEOPS_ZIPPER_HOST:$KHEOPS_ZIPPER_PORT|" /etc/nginx/dev_location.conf
-sed -i "s|\${kheopsWebUI_url}|http://$KHEOPS_UI_HOST:$KHEOPS_UI_PORT|" /etc/nginx/dev_location.conf
-
-sed -i "s|\${server_name}|$roothost|" /etc/nginx/dev_location.conf
+  sed -i "s|\${server_name}|$roothost|" conf_file
+done
 
 echo "Ending setup secrets and env var"
 
