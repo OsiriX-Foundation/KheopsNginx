@@ -18,6 +18,7 @@ RUN rm /var/log/nginx/access.log /var/log/nginx/error.log && \
     rm /etc/nginx/conf.d/default.conf
     
 RUN chmod +x /logcrontab.sh
+RUN chmod +x /docker-entrypoint.d/72-add_crontab.sh
     
 RUN apt-get update && apt-get install -y logrotate
 
