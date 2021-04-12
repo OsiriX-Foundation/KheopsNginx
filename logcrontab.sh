@@ -8,6 +8,8 @@ if [ ! -x /usr/sbin/logrotate ]; then
     exit 0
 fi 
 
+mkdir /var/log/nginx/xx$(date +%M)
+
 /usr/sbin/logrotate /etc/logrotate.d/nginxday
 /usr/sbin/logrotate /etc/logrotate.d/nginxsize
 EXITVALUE=$?
